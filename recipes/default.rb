@@ -11,4 +11,8 @@
 include_recipe "apt"
 include_recipe "jenkins::server"
 
+# Install git, and related Jenkins plugins
 include_recipe "git::default"
+jenkins_plugin "scm-api"
+jenkins_plugin "git-client"
+jenkins_plugin "git"

@@ -14,4 +14,12 @@ describe "cooking-with-jenkins::default" do
     expect(command 'which git').to return_stdout /.*\/bin\/git.*/
   end
 
+  it "installs the Jenkins git plugins" do
+    %w{ scm-api git git-client }.each do |p|
+      search = "plugin/#{p}/uninstall"
+      list_installed_plugins = "wget -q -O - http://localhost:8080/pluginManager/installed"
+      expect(command list_installed_plugins).to return_stdout /.*#{Regexp.quote(search)}.*/
+    end
+  end
+
 end
