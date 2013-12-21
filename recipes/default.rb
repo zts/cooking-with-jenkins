@@ -10,3 +10,5 @@
 # Install jenkins
 include_recipe "apt"
 include_recipe "jenkins::server"
+
+include_recipe "git::default"

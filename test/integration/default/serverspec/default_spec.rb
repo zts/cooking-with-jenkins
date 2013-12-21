@@ -10,4 +10,8 @@ describe "cooking-with-jenkins::default" do
     expect(command 'wget -q -O - http://localhost:8080/').to return_stdout /.*Jenkins.*/
   end
 
+  it "installs git" do
+    expect(command 'which git').to return_stdout /.*\/bin\/git.*/
+  end
+
 end
