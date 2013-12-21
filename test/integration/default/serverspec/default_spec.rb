@@ -22,4 +22,9 @@ describe "cooking-with-jenkins::default" do
     end
   end
 
+  it "creates a job for the memcached cookbook" do
+    list_jobs = "wget -q -O - http://localhost:8080/rssAll"
+    job_name = "memcached-cookbook"
+    expect(command list_jobs).to return_stdout /.*#{Regexp.quote(job_name)}.*/
+  end
 end
