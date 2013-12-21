@@ -6,3 +6,7 @@
 # 
 # All rights reserved - Do Not Redistribute
 #
+
+# Install jenkins
+include_recipe "apt"
+include_recipe "jenkins::server"
