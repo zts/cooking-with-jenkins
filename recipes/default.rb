@@ -17,6 +17,10 @@ jenkins_plugin "scm-api"
 jenkins_plugin "git-client"
 jenkins_plugin "git"
 
+# Install ruby, for running cookbook tests
+ruby_packages = %w{ ruby1.9.3 rake bundler libxml2-dev libxslt-dev }
+ruby_packages.each { |p| package p }
+
 # Add Jenkins job for a repository
 repo = "https://github.com/zts/chef-cookbook-managed_directory.git"
 job_name = "cookbook-managed_directory"
@@ -33,5 +37,3 @@ template job_config do
   notifies  :update, "jenkins_job[#{job_name}]", :immediately
   notifies  :build, "jenkins_job[#{job_name}]", :immediately
 end
-
-  
