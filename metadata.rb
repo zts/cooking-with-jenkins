@@ -12,3 +12,6 @@ depends 'jenkins', '~> 1.2.0'
 
 # We'll be pulling cookbooks using git
 depends 'git', '~> 2.5'
+
+# We'll run integration tests using docker
+depends 'docker', '~> 0.20'

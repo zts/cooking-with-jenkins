@@ -21,6 +21,21 @@ jenkins_plugin "git"
 ruby_packages = %w{ ruby1.9.3 rake bundler libxml2-dev libxslt-dev }
 ruby_packages.each { |p| package p }
 
+# Install docker, for running cookbook integration tests
+include_recipe "docker"
+
+# add jenkins to the docker group, so that it doesn't need sudo
+group "docker" do
+  members "jenkins"
+  append true
+  action :modify
+  notifies :restart, "service[docker]"
+end
+
+# pull down the images we'll use for testing
+docker_image "centos"
+
+
 # Add Jenkins job for a repository
 repo = "https://github.com/zts/chef-cookbook-managed_directory.git"
 job_name = "cookbook-managed_directory"
