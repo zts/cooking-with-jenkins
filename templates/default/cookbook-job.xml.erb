@@ -28,7 +28,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>true
+      <command>cd $WORKSPACE
+bundle install --path .vendor --without integration
+bundle exec rake lint
+bundle exec rake spec
 </command>
     </hudson.tasks.Shell>
   </builders>
