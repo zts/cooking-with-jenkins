@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<org.jenkinsci.plugins.configfiles.custom.CustomConfigProvider plugin="config-file-provider@2.7.1">
+  <configs>
+    <entry>
+      <string>org.jenkinsci.plugins.configfiles.custom.CustomConfig1388152867141</string>
+      <org.jenkinsci.lib.configprovider.model.Config>
+        <id>org.jenkinsci.plugins.configfiles.custom.CustomConfig1388152867141</id>
+        <name>.kitchen.local.yml</name>
+        <comment>Overrides TestKitchen configuration supplied by cookbooks being tested</comment>
+        <content>---
+driver:
+  name: docker
+
+driver_config:
+  use_sudo: false
+</content>
+      </org.jenkinsci.lib.configprovider.model.Config>
+    </entry>
+  </configs>
+</org.jenkinsci.plugins.configfiles.custom.CustomConfigProvider>
+
