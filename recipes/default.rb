@@ -7,22 +7,13 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# Install jenkins
-include_recipe "apt"
-include_recipe "jenkins::server"
+# Install everything
+include_recipe "cooking-with-jenkins::install"
 
 # Install git, and related Jenkins plugins
-include_recipe "git::default"
 jenkins_plugin "scm-api"
 jenkins_plugin "git-client"
 jenkins_plugin "git"
-
-# Install ruby, for running cookbook tests
-ruby_packages = %w{ ruby1.9.3 rake bundler libxml2-dev libxslt-dev }
-ruby_packages.each { |p| package p }
-
-# Install docker, for running cookbook integration tests
-include_recipe "docker"
 
 # add jenkins to the docker group, so that it doesn't need sudo
 group "docker" do
