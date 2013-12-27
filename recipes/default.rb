@@ -10,21 +10,13 @@
 # Install everything
 include_recipe "cooking-with-jenkins::install"
 
+# Prepare docker for use under jenkins
+include_recipe "cooking-with-jenkins::configure-docker"
+
 # Install git, and related Jenkins plugins
 jenkins_plugin "scm-api"
 jenkins_plugin "git-client"
 jenkins_plugin "git"
-
-# add jenkins to the docker group, so that it doesn't need sudo
-group "docker" do
-  members "jenkins"
-  append true
-  action :modify
-  notifies :restart, "service[docker]"
-end
-
-# pull down the images we'll use for testing
-docker_image "centos"
 
 ## Stuff for test-kitchen
 jenkins_plugin "ansicolor" # colourise console output
