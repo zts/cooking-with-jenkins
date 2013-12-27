@@ -36,6 +36,8 @@ end
 docker_image "centos"
 
 ## Stuff for test-kitchen
+jenkins_plugin "ansicolor" # colourise console output
+
 # provide additional static files to jobs
 cookbook_file "#{node[:jenkins][:server][:home]}/custom-config-files.xml" do
   owner "jenkins"
