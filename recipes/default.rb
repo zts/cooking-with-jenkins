@@ -35,6 +35,21 @@ end
 # pull down the images we'll use for testing
 docker_image "centos"
 
+## Stuff for test-kitchen
+jenkins_plugin "ansicolor" # colourise console output
+
+# provide additional static files to jobs
+cookbook_file "#{node[:jenkins][:server][:home]}/custom-config-files.xml" do
+  owner "jenkins"
+  group "jenkins"
+  mode "0644"
+  notifies :restart, "service[jenkins]"
+end
+jenkins_plugin "token-macro"
+jenkins_plugin "config-file-provider" do
+  version "2.7"
+  action :install
+end
 
 # Add Jenkins job for a repository
 repo = "https://github.com/zts/chef-cookbook-managed_directory.git"
