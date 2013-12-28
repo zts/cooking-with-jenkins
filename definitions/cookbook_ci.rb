@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-define :cookbook_ci, :branch => 'master' do
+define :cookbook_ci, :branch => 'master', :foodcritic => true, :chefspec => false, :kitchen => false do
   job_name = "cookbook-#{params[:name]}"
   repo = params[:repository]
 
@@ -30,14 +30,14 @@ define :cookbook_ci, :branch => 'master' do
     config job_config
   end
 
-  build_commands = <<-EOF
-bundle exec rake lint
-bundle exec rake spec
-bundle exec rake kitchen:all
-  EOF
+  commands = ["bundle install --path .bundle --without integration"]
+  commands << "bundle exec rake lint" if params[:foodcritic]
+  commands << "bundle exec rake spec" if params[:chefspec]
+  commands << "bundle exec rake kitchen:all" if params[:kitchen]
+
   template job_config do
     source 'cookbook-job.xml.erb'
-    variables :git_url => repo, :git_branch => params[:branch], :commands => build_commands
+    variables :git_url => repo, :git_branch => params[:branch], :commands => commands.join("\n")
     notifies  :update, "jenkins_job[#{job_name}]", :immediately
     notifies  :build, "jenkins_job[#{job_name}]", :immediately
   end

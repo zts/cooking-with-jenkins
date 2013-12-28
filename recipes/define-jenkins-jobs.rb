@@ -13,5 +13,8 @@
 cookbook_ci "managed_directory" do
   repository "https://github.com/zts/chef-cookbook-managed_directory.git"
   branch "master"
+  foodcritic true
+  chefspec true
+  kitchen true
 end
 

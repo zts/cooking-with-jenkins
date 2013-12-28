@@ -28,7 +28,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>bundle install --path .bundle --without integration
+      <command>
         <%= @commands %>
       </command>
     </hudson.tasks.Shell>
