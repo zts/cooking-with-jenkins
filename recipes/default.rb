@@ -7,63 +7,14 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# Install jenkins
-include_recipe "apt"
-include_recipe "jenkins::server"
+# Install everything
+include_recipe "cooking-with-jenkins::install"
 
-# Install git, and related Jenkins plugins
-include_recipe "git::default"
-jenkins_plugin "scm-api"
-jenkins_plugin "git-client"
-jenkins_plugin "git"
+# Prepare docker for use under jenkins
+include_recipe "cooking-with-jenkins::configure-docker"
 
-# Install ruby, for running cookbook tests
-ruby_packages = %w{ ruby1.9.3 rake bundler libxml2-dev libxslt-dev }
-ruby_packages.each { |p| package p }
+# Prepare jenkins for running jobs
+include_recipe "cooking-with-jenkins::configure-jenkins"
 
-# Install docker, for running cookbook integration tests
-include_recipe "docker"
-
-# add jenkins to the docker group, so that it doesn't need sudo
-group "docker" do
-  members "jenkins"
-  append true
-  action :modify
-  notifies :restart, "service[docker]"
-end
-
-# pull down the images we'll use for testing
-docker_image "centos"
-
-## Stuff for test-kitchen
-jenkins_plugin "ansicolor" # colourise console output
-
-# provide additional static files to jobs
-cookbook_file "#{node[:jenkins][:server][:home]}/custom-config-files.xml" do
-  owner "jenkins"
-  group "jenkins"
-  mode "0644"
-  notifies :restart, "service[jenkins]"
-end
-jenkins_plugin "token-macro"
-jenkins_plugin "config-file-provider" do
-  version "2.7"
-  action :install
-end
-
-# Add Jenkins job for a repository
-repo = "https://github.com/zts/chef-cookbook-managed_directory.git"
-job_name = "cookbook-managed_directory"
-job_config = File.join(node[:jenkins][:server][:home], "#{job_name}-config.xml")
-
-jenkins_job job_name do
-  action :nothing
-  config job_config
-end
-
-template job_config do
-  source 'cookbook-job.xml.erb'
-  variables :git_url => repo, :git_branch => 'master'
-  notifies  :update, "jenkins_job[#{job_name}]", :immediately
-  notifies  :build, "jenkins_job[#{job_name}]", :immediately
-end
+# Create jobs for the cookbooks we're testing
+include_recipe "cooking-with-jenkins::define-jenkins-jobs"
