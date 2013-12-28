@@ -28,14 +28,12 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>cd $WORKSPACE
-bundle install --path .vendor --without integration
-bundle exec rake lint
-bundle exec rake spec
-bundle exec rake kitchen:all
-</command>
+      <command>
+        <%= @commands %>
+      </command>
     </hudson.tasks.Shell>
   </builders>
+<% if @params[:foodcritic] %>
   <publishers>
     <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.28">
       <healthy></healthy>
@@ -67,7 +65,11 @@ bundle exec rake kitchen:all
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
   </publishers>
+<% else %>
+  <publishers/>
+<% end %>
   <buildWrappers>
+<% if @params[:kitchen] %>
     <org.jenkinsci.plugins.configfiles.buildwrapper.ConfigFileBuildWrapper plugin="config-file-provider@2.7.1">
       <managedFiles>
         <org.jenkinsci.plugins.configfiles.buildwrapper.ManagedFile>
@@ -77,6 +79,7 @@ bundle exec rake kitchen:all
         </org.jenkinsci.plugins.configfiles.buildwrapper.ManagedFile>
       </managedFiles>
     </org.jenkinsci.plugins.configfiles.buildwrapper.ConfigFileBuildWrapper>
+<% end %>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.3.1">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
