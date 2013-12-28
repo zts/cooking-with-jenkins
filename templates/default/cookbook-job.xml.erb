@@ -33,6 +33,7 @@
       </command>
     </hudson.tasks.Shell>
   </builders>
+<% if @params[:foodcritic] %>
   <publishers>
     <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.28">
       <healthy></healthy>
@@ -64,6 +65,9 @@
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
   </publishers>
+<% else %>
+  <publishers/>
+<% end %>
   <buildWrappers>
     <org.jenkinsci.plugins.configfiles.buildwrapper.ConfigFileBuildWrapper plugin="config-file-provider@2.7.1">
       <managedFiles>
