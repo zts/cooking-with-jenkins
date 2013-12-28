@@ -40,3 +40,9 @@ end
 # instructions on http://acrmp.github.io/foodcritic/#ci
 jenkins_plugin "analysis-core"
 jenkins_plugin "warnings"
+cookbook_file "#{node[:jenkins][:server][:home]}/hudson.plugins.warnings.WarningsPublisher.xml" do
+  owner "jenkins"
+  group "jenkins"
+  mode "0644"
+  notifies :restart, "service[jenkins]"
+end
