@@ -12,7 +12,11 @@ driver:
   name: docker
 
 driver_config:
+  provision_command: curl -L https://www.opscode.com/chef/install.sh | bash
   use_sudo: false
+
+provisioner:
+  require_chef_omnibus: false
 </content>
       </org.jenkinsci.lib.configprovider.model.Config>
     </entry>
