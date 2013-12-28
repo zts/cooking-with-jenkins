@@ -34,3 +34,9 @@ jenkins_plugin "config-file-provider" do
   version "2.7"
   action :install
 end
+
+# This plugin lets us parse console output to report on warnings.
+# We'll use this to extract foodcritic's complaints, per the
+# instructions on http://acrmp.github.io/foodcritic/#ci
+jenkins_plugin "analysis-core"
+jenkins_plugin "warnings"
