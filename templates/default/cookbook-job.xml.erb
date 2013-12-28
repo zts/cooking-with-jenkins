@@ -28,12 +28,9 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>cd $WORKSPACE
-bundle install --path .vendor --without integration
-bundle exec rake lint
-bundle exec rake spec
-bundle exec rake kitchen:all
-</command>
+      <command>bundle install --path .bundle --without integration
+        <%= @commands %>
+      </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

@@ -30,9 +30,14 @@ define :cookbook_ci, :branch => 'master' do
     config job_config
   end
 
+  build_commands = <<-EOF
+bundle exec rake lint
+bundle exec rake spec
+bundle exec rake kitchen:all
+  EOF
   template job_config do
     source 'cookbook-job.xml.erb'
-    variables :git_url => repo, :git_branch => params[:branch]
+    variables :git_url => repo, :git_branch => params[:branch], :commands => build_commands
     notifies  :update, "jenkins_job[#{job_name}]", :immediately
     notifies  :build, "jenkins_job[#{job_name}]", :immediately
   end
