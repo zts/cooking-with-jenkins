@@ -9,19 +9,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# Add Jenkins job for a repository
-repo = "https://github.com/zts/chef-cookbook-managed_directory.git"
-job_name = "cookbook-managed_directory"
-job_config = File.join(node[:jenkins][:server][:home], "#{job_name}-config.xml")
-
-jenkins_job job_name do
-  action :nothing
-  config job_config
+# Create jenkins jobs for the cookbooks we want to test
+cookbook_ci "managed_directory" do
+  repository "https://github.com/zts/chef-cookbook-managed_directory.git"
+  branch "master"
 end
 
-template job_config do
-  source 'cookbook-job.xml.erb'
-  variables :git_url => repo, :git_branch => 'master'
-  notifies  :update, "jenkins_job[#{job_name}]", :immediately
-  notifies  :build, "jenkins_job[#{job_name}]", :immediately
-end
