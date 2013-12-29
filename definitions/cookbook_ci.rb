@@ -30,10 +30,10 @@ define :cookbook_ci, :branch => 'master', :foodcritic => true, :chefspec => fals
     config job_config
   end
 
-  commands = ["bundle install --path .bundle --without integration"]
-  commands << "bundle exec rake lint" if params[:foodcritic]
-  commands << "bundle exec rake spec" if params[:chefspec]
-  commands << "bundle exec rake kitchen:all" if params[:kitchen]
+  commands = []
+  commands << "foodcritic -f correctness ." if params[:foodcritic]
+  commands << "rspec --tty -c -f doc " if params[:chefspec]
+  commands << "kitchen test all -p -d always" if params[:kitchen]
 
   template job_config do
     source 'cookbook-job.xml.erb'

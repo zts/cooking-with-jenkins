@@ -20,6 +20,9 @@ include_recipe "git::default"
 ruby_packages = %w{ ruby1.9.3 rake bundler libxml2-dev libxslt-dev }
 ruby_packages.each { |p| package p }
 
+gems = %w{ foodcritic chefspec berkshelf test-kitchen kitchen-docker }
+gems.each { |g| gem_package g }
+
 # We'll be running cookbook integration tests under Docker
 include_recipe "docker"
 
