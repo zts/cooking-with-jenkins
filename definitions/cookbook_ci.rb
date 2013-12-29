@@ -30,7 +30,7 @@ define :cookbook_ci, :branch => 'master', :foodcritic => true, :chefspec => fals
     config job_config
   end
 
-  commands = ["bundle install --path .bundle --without integration"]
+  commands = ["bundle install --deployment"]
   commands << "bundle exec rake lint" if params[:foodcritic]
   commands << "bundle exec rake spec" if params[:chefspec]
   commands << "bundle exec rake kitchen:all" if params[:kitchen]
