@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-define :cookbook_ci, :branch => 'master', :foodcritic => true, :chefspec => false, :kitchen => false do
+define :cookbook_ci, :branch => 'master', :foodcritic => true, :chefspec => false, :kitchen => false, :junit_results => false do
   job_name = "cookbook-#{params[:name]}"
   repo = params[:repository]
 

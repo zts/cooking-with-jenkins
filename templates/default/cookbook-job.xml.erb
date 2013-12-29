@@ -33,8 +33,8 @@
       </command>
     </hudson.tasks.Shell>
   </builders>
-<% if @params[:foodcritic] %>
   <publishers>
+<% if @params[:foodcritic] %>
     <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.28">
       <healthy></healthy>
       <unHealthy></unHealthy>
@@ -64,10 +64,15 @@
         </hudson.plugins.warnings.ConsoleParser>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
-  </publishers>
-<% else %>
-  <publishers/>
 <% end %>
+<% if @params[:junit_results] %>
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>results.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <testDataPublishers/>
+    </hudson.tasks.junit.JUnitResultArchiver>
+<% end %>
+  </publishers>
   <buildWrappers>
 <% if @params[:kitchen] %>
     <org.jenkinsci.plugins.configfiles.buildwrapper.ConfigFileBuildWrapper plugin="config-file-provider@2.7.1">
