@@ -31,4 +31,4 @@ end
 
 # Download the images we'll be using with test-kitchen.
 docker_image "centos"
-
+docker_image "ubuntu"
