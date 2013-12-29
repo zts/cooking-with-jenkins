@@ -26,6 +26,7 @@ cookbook_ci "managed_directory" do
   foodcritic true
   chefspec true
   kitchen true
+  junit_results true
 end
 
 cookbook_ci "mcollective" do
