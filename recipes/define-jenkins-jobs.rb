@@ -31,7 +31,9 @@ end
 cookbook_ci "mcollective" do
   repository "https://github.com/zts/cookbook-mcollective.git"
   branch "master"
-  foodcritic false
+  foodcritic true
+  chefspec false
+  kitchen true
 end
 
 # test repo with foodcritic errors, and junit-format rspec output
