@@ -18,3 +18,18 @@ cookbook_ci "managed_directory" do
   kitchen true
 end
 
+cookbook_ci "mcollective" do
+  repository "https://github.com/zts/cookbook-mcollective.git"
+  branch "master"
+  foodcritic false
+end
+
+# test repo with foodcritic errors, and junit-format rspec output
+cookbook_ci "test" do
+  repository "https://github.com/zts/test-cookbook.git"
+  branch "master"
+  foodcritic true
+  chefspec true
+  kitchen false
+  junit_results true
+end
